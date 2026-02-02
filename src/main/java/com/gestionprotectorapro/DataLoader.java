@@ -1,4 +1,5 @@
-package com.gestionprotectorapro;
+
+/*package com.gestionprotectorapro;
 
 import com.gestionprotectorapro.entity.Animal;
 import com.gestionprotectorapro.repository.AnimalRepository;
@@ -38,3 +39,5 @@ public class DataLoader {
     }
 
 }
+
+ */
