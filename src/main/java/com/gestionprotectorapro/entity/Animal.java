@@ -1,6 +1,9 @@
 package com.gestionprotectorapro.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
 
 @Entity
 @Table(name = "animal")
@@ -11,8 +14,11 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
+    @NotBlank(message = "La especie es obligatoria")
     private String especie;
+    @Min(value = 0, message = "La edad no puede ser negativa")
     private int edad;
     private boolean adoptado;
 

@@ -2,6 +2,8 @@ package com.gestionprotectorapro.controller;
 
 import com.gestionprotectorapro.entity.Animal;
 import com.gestionprotectorapro.repository.AnimalRepository;
+import com.gestionprotectorapro.service.AnimalService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,50 +13,44 @@ import java.util.List;
 
 public class AnimalController {
 
-    private final AnimalRepository animalRepository;
+    private final AnimalService animalService;
 
-    public AnimalController(AnimalRepository animalRepository){
-        this.animalRepository = animalRepository;
+    public AnimalController(AnimalService animalService){
+        this.animalService = animalService;
     }
 
     //Listar
     @GetMapping
     public List<Animal> listarAnimales() {
-        return animalRepository.findAll();
+        return animalService.listarTodos();
     }
 
 
     //Insertar
     @PostMapping
-    public Animal insertarAnimal(@RequestBody Animal animal){
-        return animalRepository.save(animal);
+    public Animal insertarAnimal(@Valid @RequestBody Animal animal){
+        return animalService.guardar(animal);
     }
 
     //Listar animales no adoptados
 
     @GetMapping("/no-adoptados")
     public List<Animal> listarNoAdoptados() {
-        return animalRepository.findByAdoptadoFalse();
+        return animalService.listarNoAdoptados();
     }
 
     //Actualizar animal
     @PutMapping("/{id}")
     public Animal actualizarAnimal(@PathVariable Long id, @RequestBody Animal animalActualizado) {
-        Animal animal = animalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Animal no encontrado"));
-        animal.setNombre(animalActualizado.getNombre());
-        animal.setEspecie(animalActualizado.getEspecie());
-        animal.setEdad(animalActualizado.getEdad());
-        animal.setAdoptado(animalActualizado.isAdoptado());
 
-        return animalRepository.save(animal);
+        return animalService.actualizar(id, animalActualizado);
     }
 
     //Eliminar animal
 
     @DeleteMapping("/{id}")
     public void eliminarAnimal(@PathVariable Long id) {
-        animalRepository.deleteById(id);
+        animalService.eliminar(id);
     }
 
 }
