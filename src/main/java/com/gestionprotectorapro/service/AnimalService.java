@@ -5,6 +5,7 @@ import com.gestionprotectorapro.repository.AnimalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimalService {
@@ -46,6 +47,13 @@ public class AnimalService {
         animal.setAdoptado(animalActualizado.isAdoptado());
 
         return animalRepository.save(animal);
+    }
+
+
+    //Obtener un animal por ID
+
+    public Optional<Animal> obtenerPorId(Long id){
+        return animalRepository.findById(id);
     }
 
 

@@ -53,4 +53,12 @@ public class AnimalController {
         animalService.eliminar(id);
     }
 
+    //obtener un animal por ID
+
+    @GetMapping("/{id}")
+    public Animal obtenerPorId(@PathVariable Long id) {
+        return animalService.obtenerPorId(id)
+                .orElseThrow(() -> new RuntimeException("Animal no encontrado"));
+    }
+
 }
