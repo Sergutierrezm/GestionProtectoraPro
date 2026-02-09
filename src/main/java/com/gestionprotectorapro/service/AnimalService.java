@@ -1,5 +1,7 @@
 package com.gestionprotectorapro.service;
 
+import com.gestionprotectorapro.dto.AnimalRequestDTO;
+import com.gestionprotectorapro.dto.AnimalResponseDTO;
 import com.gestionprotectorapro.entity.Animal;
 import com.gestionprotectorapro.repository.AnimalRepository;
 import org.springframework.stereotype.Service;
@@ -38,13 +40,13 @@ public class AnimalService {
 
     //Actualizar
 
-    public Animal actualizar (Long id, Animal animalActualizado){
+    public Animal actualizar (Long id, AnimalRequestDTO dto){
         Animal animal = animalRepository.findById(id).orElseThrow(() -> new RuntimeException("Animal no encontrado"));
 
-        animal.setNombre(animalActualizado.getNombre());
-        animal.setEspecie(animalActualizado.getEspecie());
-        animal.setEdad(animalActualizado.getEdad());
-        animal.setAdoptado(animalActualizado.isAdoptado());
+        animal.setNombre(dto.getNombre());
+        animal.setEspecie(dto.getEspecie());
+        animal.setEdad(dto.getEdad());
+        animal.setAdoptado(dto.isAdoptado());
 
         return animalRepository.save(animal);
     }
@@ -56,5 +58,46 @@ public class AnimalService {
         return animalRepository.findById(id);
     }
 
+    //metodo para pasar a RequestDTO -> Entity
+    private Animal convertirAEntity(AnimalRequestDTO dto) {
+        Animal animal = new Animal();
 
-}
+        animal.setNombre(dto.getNombre());
+        animal.setEspecie(dto.getEspecie());
+        animal.setEdad(dto.getEdad());
+        animal.setAdoptado(dto.isAdoptado());
+
+        return animal;
+    }
+
+
+    //metodo para pasar de entity a ResponseDTO
+
+
+
+    public AnimalResponseDTO crearAnimal (AnimalRequestDTO dto) {
+        Animal animal = convertirAEntity(dto);
+        Animal guardado = animalRepository.save(animal);
+        return convertirAResponseDTO(guardado);
+
+
+    }
+
+    public AnimalResponseDTO convertirAResponseDTO(Animal animal){
+        AnimalResponseDTO dto = new AnimalResponseDTO();
+        dto.setId(animal.getId());
+        dto.setNombre(animal.getNombre());
+        dto.setEspecie(animal.getEspecie());
+        dto.setEdad(animal.getEdad());
+        dto.setAdoptado(animal.isAdoptado());
+        return dto;
+    }
+
+
+
+    }
+
+
+
+
+

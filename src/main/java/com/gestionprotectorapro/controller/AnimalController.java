@@ -1,5 +1,7 @@
 package com.gestionprotectorapro.controller;
 
+import com.gestionprotectorapro.dto.AnimalRequestDTO;
+import com.gestionprotectorapro.dto.AnimalResponseDTO;
 import com.gestionprotectorapro.entity.Animal;
 import com.gestionprotectorapro.repository.AnimalRepository;
 import com.gestionprotectorapro.service.AnimalService;
@@ -21,29 +23,35 @@ public class AnimalController {
 
     //Listar
     @GetMapping
-    public List<Animal> listarAnimales() {
-        return animalService.listarTodos();
+    public List<AnimalResponseDTO> listarAnimales() {
+        return animalService.listarTodos()
+                .stream()
+                .map(animal -> animalService.convertirAResponseDTO(animal))
+                .toList();
     }
 
 
     //Insertar
     @PostMapping
-    public Animal insertarAnimal(@Valid @RequestBody Animal animal){
-        return animalService.guardar(animal);
+    public AnimalResponseDTO insertarAnimal(@Valid @RequestBody AnimalRequestDTO dto){
+        return animalService.crearAnimal(dto);
     }
 
     //Listar animales no adoptados
 
     @GetMapping("/no-adoptados")
-    public List<Animal> listarNoAdoptados() {
-        return animalService.listarNoAdoptados();
+    public List<AnimalResponseDTO> listarNoAdoptados() {
+        return animalService.listarNoAdoptados()
+                .stream()
+                .map(animalService::convertirAResponseDTO)
+                .toList();
     }
 
     //Actualizar animal
     @PutMapping("/{id}")
-    public Animal actualizarAnimal(@PathVariable Long id, @RequestBody Animal animalActualizado) {
-
-        return animalService.actualizar(id, animalActualizado);
+    public AnimalResponseDTO actualizarAnimal(@PathVariable Long id,@Valid @RequestBody AnimalRequestDTO dto) {
+        Animal actualizado = animalService.actualizar(id, dto);
+        return animalService.convertirAResponseDTO(actualizado);
     }
 
     //Eliminar animal
@@ -56,9 +64,11 @@ public class AnimalController {
     //obtener un animal por ID
 
     @GetMapping("/{id}")
-    public Animal obtenerPorId(@PathVariable Long id) {
-        return animalService.obtenerPorId(id)
+    public AnimalResponseDTO obtenerPorId(@PathVariable Long id) {
+        Animal animal = animalService.obtenerPorId(id)
                 .orElseThrow(() -> new RuntimeException("Animal no encontrado"));
+        return animalService.convertirAResponseDTO(animal);
+
     }
 
 }
