@@ -3,6 +3,7 @@ package com.gestionprotectorapro.controller;
 import com.gestionprotectorapro.dto.AnimalRequestDTO;
 import com.gestionprotectorapro.dto.AnimalResponseDTO;
 import com.gestionprotectorapro.entity.Animal;
+import com.gestionprotectorapro.exception.AnimalNotFoundException;
 import com.gestionprotectorapro.repository.AnimalRepository;
 import com.gestionprotectorapro.service.AnimalService;
 import jakarta.validation.Valid;
