@@ -7,6 +7,8 @@ import com.gestionprotectorapro.repository.AnimalRepository;
 import com.gestionprotectorapro.service.AnimalService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -23,51 +25,58 @@ public class AnimalController {
 
     //Listar
     @GetMapping
-    public List<AnimalResponseDTO> listarAnimales() {
-        return animalService.listarTodos()
+    public ResponseEntity <List<AnimalResponseDTO>> listarAnimales() {
+        List<AnimalResponseDTO> animales = animalService.listarTodos()
                 .stream()
-                .map(animal -> animalService.convertirAResponseDTO(animal))
+                .map(animalService::convertirAResponseDTO)
                 .toList();
+        return ResponseEntity.ok(animales);
+
     }
 
 
     //Insertar
     @PostMapping
-    public AnimalResponseDTO insertarAnimal(@Valid @RequestBody AnimalRequestDTO dto){
-        return animalService.crearAnimal(dto);
+    public ResponseEntity<AnimalResponseDTO> insertarAnimal(@Valid @RequestBody AnimalRequestDTO dto){
+        AnimalResponseDTO creado = animalService.crearAnimal(dto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(creado);
     }
 
     //Listar animales no adoptados
 
     @GetMapping("/no-adoptados")
-    public List<AnimalResponseDTO> listarNoAdoptados() {
-        return animalService.listarNoAdoptados()
+    public ResponseEntity <List<AnimalResponseDTO>> listarNoAdoptados() {
+        List<AnimalResponseDTO> animales = animalService.listarNoAdoptados()
                 .stream()
                 .map(animalService::convertirAResponseDTO)
                 .toList();
+        return ResponseEntity.ok(animales);
     }
 
     //Actualizar animal
     @PutMapping("/{id}")
-    public AnimalResponseDTO actualizarAnimal(@PathVariable Long id,@Valid @RequestBody AnimalRequestDTO dto) {
+    public ResponseEntity <AnimalResponseDTO> actualizarAnimal(@PathVariable Long id,@Valid @RequestBody AnimalRequestDTO dto) {
         Animal actualizado = animalService.actualizar(id, dto);
-        return animalService.convertirAResponseDTO(actualizado);
+        return ResponseEntity.ok (animalService.convertirAResponseDTO(actualizado));
     }
 
     //Eliminar animal
 
     @DeleteMapping("/{id}")
-    public void eliminarAnimal(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarAnimal (@PathVariable Long id) {
         animalService.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 
     //obtener un animal por ID
 
     @GetMapping("/{id}")
-    public AnimalResponseDTO obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity <AnimalResponseDTO> obtenerPorId(@PathVariable Long id) {
         Animal animal = animalService.obtenerPorId(id)
-                .orElseThrow(() -> new RuntimeException("Animal no encontrado"));
-        return animalService.convertirAResponseDTO(animal);
+                .orElseThrow(() -> new AnimalNotFoundException("Animal no encontrado"));
+        return ResponseEntity.ok (animalService.convertirAResponseDTO(animal));
 
     }
 
