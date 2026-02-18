@@ -5,6 +5,9 @@ import com.gestionprotectorapro.dto.AnimalResponseDTO;
 import com.gestionprotectorapro.entity.Animal;
 import com.gestionprotectorapro.repository.AnimalRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -25,12 +28,13 @@ public class AnimalService {
 
     //Listar todos
 
-    public List<Animal> listarTodos(){
-        return animalRepository.findAll();
+    public Page <Animal> listarTodos(Pageable pageable){
+
+        return animalRepository.findAll(pageable);
     }
     //Listar no adoptadp
-    public List<Animal> listarNoAdoptados(){
-        return animalRepository.findByAdoptadoFalse();
+    public Page <Animal> listarNoAdoptados(Pageable pageable){
+        return animalRepository.findByAdoptadoFalse(pageable);
     }
 
     //Eliminar

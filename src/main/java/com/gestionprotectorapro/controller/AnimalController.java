@@ -7,9 +7,14 @@ import com.gestionprotectorapro.exception.AnimalNotFoundException;
 import com.gestionprotectorapro.repository.AnimalRepository;
 import com.gestionprotectorapro.service.AnimalService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -26,11 +31,11 @@ public class AnimalController {
 
     //Listar
     @GetMapping
-    public ResponseEntity <List<AnimalResponseDTO>> listarAnimales() {
-        List<AnimalResponseDTO> animales = animalService.listarTodos()
-                .stream()
-                .map(animalService::convertirAResponseDTO)
-                .toList();
+    public ResponseEntity <Page<AnimalResponseDTO>> listarAnimales(@RequestParam (defaultValue = "0")int page,
+                                                                   @RequestParam (defaultValue = "10")int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<AnimalResponseDTO> animales = animalService.listarTodos(pageable)
+                .map(animalService::convertirAResponseDTO);
         return ResponseEntity.ok(animales);
 
     }
@@ -48,11 +53,11 @@ public class AnimalController {
     //Listar animales no adoptados
 
     @GetMapping("/no-adoptados")
-    public ResponseEntity <List<AnimalResponseDTO>> listarNoAdoptados() {
-        List<AnimalResponseDTO> animales = animalService.listarNoAdoptados()
-                .stream()
-                .map(animalService::convertirAResponseDTO)
-                .toList();
+    public ResponseEntity <Page<AnimalResponseDTO>> listarNoAdoptados(@RequestParam (defaultValue = "0")int page,
+                                                                      @RequestParam (defaultValue = "10")int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<AnimalResponseDTO> animales = animalService.listarNoAdoptados(pageable)
+                .map(animalService::convertirAResponseDTO);
         return ResponseEntity.ok(animales);
     }
 
