@@ -5,6 +5,10 @@ function App() {
   const [animales, setAnimales] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+
 
   // Estado formulario para añadir animal
   const [form, setForm] = useState({
@@ -102,12 +106,61 @@ function App() {
       .catch(err => console.error("Error actualizando animal:", err));
   };
 
-  if (loading) return <div>Cargando animales...</div>;
-  if (error) return <div>{error}</div>;
+
+
+
+
+const handleLogin = (e) => {
+  e.preventDefault();
+  //Ejemplo
+  if(user == "admin" && password === "1234"){
+    setLoggedIn(true);
+  }else{
+    alert("Usuario o contraseña incorrectos");
+  }
+};
+
+const handleLogout = () => {
+  setLoggedIn(false);
+  setUser("");
+  setPassword("");
+};
+
+if (!loggedIn) {
+  return (
+    <div className="container">
+      <h1>Login</h1>
+      <form onSubmit={handleLogin}>
+        <input
+          placeholder="Usuario"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  );
+}
+
+if (loading) return <div>Cargando animales...</div>;
+if (error) return <div>{error}</div>;
+
 
   return (
-    <div>
+    <div className="container">
       <h1>Gestión Protectora</h1>
+
+      <button onClick={handleLogout} style={{ marginBottom: '20px', backgroundColor: '#ef4444', color: 'white', border: 'none', padding: '8px 14px', borderRadius: '6px', cursor: 'pointer' }}>
+  Salir
+</button>
 
       {/* Formulario añadir */}
       <form onSubmit={handleSubmit}>
@@ -146,7 +199,7 @@ function App() {
       </form>
 
       {/* Tabla */}
-      <table border="1" cellPadding="8">
+      <table>
         <thead>
           <tr>
             <th>ID</th>
