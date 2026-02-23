@@ -1,77 +1,213 @@
-body {
+body, html {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #f4f6f8;
+  background-color: #f3f4f6; /* fondo general */
+  height: 100%;
 }
 
-.container {
-  max-width: 900px;
-  margin: 40px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+/* ------------------ LOGIN ------------------ */
+.login-wrapper {
+  display: flex;
+  justify-content: center; /* centro horizontal */
+  align-items: center;     /* centro vertical */
+  height: 100vh;           /* ocupa toda la altura del viewport */
+  width: 100%;             /* ancho completo */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #222;
+.login-container {
+  width: 400px;
+  padding: 40px;
+  background-color: #f9fafb;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* centro horizontal de todo el contenido */
+  justify-content: center;  /* centra vertical dentro del container */
+  text-align: center;       /* centra texto del h1 y p */
+  gap: 20px;                /* espacio uniforme entre h1, p y form */
 }
 
+.login-container h1 {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container h1 { margin-bottom: 10px; color: #111827; }
+.login-container p { margin-bottom: 20px; color: #374151; }
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+}
+.login-container input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  outline: none;
+}
+.login-container input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+}
+.login-container button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.login-container button:hover {
+  background-color: #1d4ed8;
+}
+
+/* ------------------ DASHBOARD ------------------ */
+
+/* ------------------ DASHBOARD ------------------ */
+body, html {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f3f4f6;
+  height: 100%;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dashboard-header h1 {
+  font-size: 48px;       /* tamaño grande tipo dashboard profesional */
+  font-weight: 800;      /* más grueso para resaltar */
+  color: #111827;        /* oscuro para contraste máximo */
+  line-height: 1.2;      /* altura de línea cómoda */
+  margin: 0;             /* sin margen extra que reduzca jerarquía */
+}
+
+.dashboard-subtitle {
+  font-size: 18-20px;
+  color: #6b7280; /* gris claro */
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Botón salir */
+button.logout {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+button.logout:hover {
+  background-color: #dc2626;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Secciones */
+.dashboard-section {
+  background-color: #ffffff;            /* blanco limpio */
+  padding: 30px;                        /* más espacio interno */
+  border-radius: 16px;                  /* bordes redondeados grandes */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05); /* sombra suave */
+  transition: 0.3s ease;                /* transición suave para hover */
+}
+
+.dashboard-section:hover {
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08); /* hover más “premium” */
+}
+
+/* Formularios */
 form {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 25px;
+  gap: 12px;
 }
 
-input[type="text"],
-input[type="number"] {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  flex: 1;
+form input, form button {
+  padding: 12px;                        /* inputs más grandes */
+  border-radius: 12px;                   /* bordes más redondeados */
+  border: 1px solid #d1d5db;           /* borde sutil */
+  font-size: 15px;                      /* letra más visible */
+}
+form input:focus {
+  border-color: #6366f1;                /* foco azul moderno */
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+form button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+form button:hover {
+  background-color: #1d4ed8;
 }
 
 label {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
+  color: #111827;       /* color oscuro para visibilidad */
+  font-weight: 500;     /* opcional, un poco más destacado */
+  font-size: 14px;      /* tamaño legible */
 }
 
-button {
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  background-color: #1d4ed8;
-}
-
-table {
+/* Tabla moderna */
+.dashboard-section table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 thead {
   background-color: #f1f5f9;
 }
 
-th, td {
-  padding: 10px;
-  text-align: left;
+th {
+  padding: 14px;
+  font-weight: 600;
+  color: #1f2937;
 }
 
-tbody tr {
-  border-bottom: 1px solid #eee;
+td {
+  padding: 12px;
+  color: #111827;
+  border-top: 1px solid #e5e7eb;
 }
 
-tbody tr:hover {
+tr:hover {
   background-color: #f9fafb;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2563eb;
+  cursor: pointer;
 }
