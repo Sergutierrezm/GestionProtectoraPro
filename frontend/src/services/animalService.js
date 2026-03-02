@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // URL de tu backend Spring Boot
-const API_URL = "http://localhost:8080/animals";
+const API_URL = "https://gestionprotectorapro.onrender.com/animals";
 
 // Función para obtener todos los animales con paginación
 export const getAnimals = (page = 0, size = 10) => {
