@@ -14,8 +14,8 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")  // permite todas las rutas
-                        .allowedOrigins("http://localhost:5173") // tu frontend React
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedOrigins("http://localhost:5173", "https://gestionprotectorapro.netlify.app")// tu frontend en Netlify
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowCredentials(true);
             }
         };
